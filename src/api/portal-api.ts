@@ -26,19 +26,29 @@ function endOfMonth(month?: number): Date {
 export const PortalApi: IOccupancyApi = {
 	getPatient(contactid: string): Promise<OccupancyTables.Contact> {
 		console.log('getPatient', contactid);
-		return Promise.resolve(new OccupancyTables.Contact({
-			contactid,
-			firstname: faker.name.firstName(),
-			lastname: faker.name.lastName(),
-			birthdate: faker.date.birthdate().toISOString(),
-			ren_ssn: '123-45-6789',
-			telephone1: faker.phone.number(),
-			address1_line1: faker.address.streetAddress(),
-			address1_city: faker.address.city(),
-			address1_stateorprovince: faker.address.stateAbbr(),
-			address1_country: faker.address.country(),
-			address1_postalcode: faker.address.zipCode()
-		}));
+		let result_api:any;
+
+		return axios.get("https://prosperitysandbox.powerappsportals.com/ren-api/ren-api-patients/?contactid=" + contactid)
+		.then((response) => {
+			result_api = response.data.trim();
+
+	
+			let patient = new OccupancyTables.Contact({
+				contactid,
+				firstname: result_api.firstName,
+				lastname:  result_api.lastName,
+				birthdate: result_api.birthdate,
+				ren_ssn: result_api.ren_ssn,
+				telephone1: result_api.telephone2,
+				address1_line1: "",
+				address1_city: "",
+				address1_stateorprovince: "",
+				address1_country: "",
+				address1_postalcode: ""
+			});
+
+			return Promise.resolve(patient);
+		});
 	},
 	getAccount(accountid: string): Promise<OccupancyTables.Account> {
 		console.log('getAccount', accountid);

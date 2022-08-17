@@ -5,12 +5,20 @@ import { App, IAppProps } from '../src/components/App';
 import { ApiType } from "../src/api";
 
 
-//Ver. 0.1.0.22
 
 const context = React.createContext({});
 
-let api: ApiType = ApiType.Portal;
-let facilityid = "89a23872-0b14-ed11-b83d-00224823504d";
+let api: ApiType = ApiType.Mock;
+let facilityid = "";
+
+if (parent.Xrm) {
+    console.log("Running in Dynamics context");
+    api = ApiType.Dynamics;
+    facilityid = parent.Xrm.Page.data.entity.getId().replace("{", "").replace("}", "");
+} else {
+    console.log("Running in Mock context");
+    facilityid = "89a23872-0b14-ed11-b83d-00224823504d";
+}
 
 const props: IAppProps = {
   context,
