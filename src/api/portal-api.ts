@@ -39,12 +39,12 @@ export const PortalApi: IOccupancyApi = {
 				lastname:  result_api.lastName,
 				birthdate: result_api.birthdate,
 				ren_ssn: result_api.ren_ssn,
-				telephone1: result_api.telephone2,
-				address1_line1: "",
-				address1_city: "",
-				address1_stateorprovince: "",
-				address1_country: "",
-				address1_postalcode: ""
+				telephone1: result_api.telephone1,
+				address1_line1: result_api.address1_line1,
+				address1_city: result_api.address1_city,
+				address1_stateorprovince: result_api.address1_stateorprovince,
+				address1_country: result_api.address1_country,
+				address1_postalcode: result_api.address1_postalcode
 			});
 
 			return Promise.resolve(patient);
